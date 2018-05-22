@@ -3,6 +3,7 @@
 #include "widget.h"
 #include <QResizeEvent>
 #include <qmath.h>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -105,3 +106,55 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
     glwidget->changeBrightness(value / 100.0);
 }
 
+
+//вращение перемещением мыши
+
+void MainWindow::mousePressEvent(QMouseEvent *e) {
+
+    if(e->x()<235||e->x()>815)
+        return;
+    if(e->y()<5||e->y()>500)
+        return;
+
+    //qDebug()<<"click"<<e->x();
+    //qDebug()<<"click"<<e->y();
+    x0 = (float) e->x();
+    y0 = (float) e->y();
+    glwidget->timer.stop();
+
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
+   /* glwidget->timer.start(60);
+    glwidget->updateGL();*/
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *e) {
+    if(e->x()<235||e->x()>815)
+        return;
+    if(e->y()<5||e->y()>500)
+        return;
+
+    if (e->buttons() & Qt::LeftButton) {
+        glwidget->camera_rotate((e->x()-x0)/1000.0, 0,0);
+        glwidget->camera_rotate(0, (e->y()-y0)/1000.0, 0);
+    }
+    if (e->buttons() & Qt::RightButton) {
+
+            glwidget->camera_rotate(0, 0, (e->x()-x0)/1000.0);
+            glwidget->camera_rotate(0, (e->y()-y0)/1000.0, 0);
+
+    }
+
+
+
+
+    /*if(e->y()-y0>0)
+        glwidget->camera_rotate(0, 0.2);
+    if(e->y()-y0<0)
+        glwidget->camera_rotate(0, -0.2);*/
+    //glwidget->camera_rotate();
+    //x0 = (float) e->x();
+    //y0 = (float) e->y();
+   // yz = (float) e->z();
+}

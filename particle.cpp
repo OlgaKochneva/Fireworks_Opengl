@@ -47,10 +47,10 @@ void Particle::recount_points(int time){
     float x, y, z, step = 2 * M_PI / 100.0;
     float Angle = (time%101)*step;
     coordinate.clear();
-    //if(is_dying)
-        //return;
-    //if(lifetime<time)
-        //is_dying = true;
+    if(is_dying)
+        return;
+    if(lifetime<time)
+        is_dying = true;
 
 
     for (int i = 0; (i < 5)&&(Angle<=M_PI);i++){

@@ -17,7 +17,7 @@ class Widget: public QGLWidget{
 private:
     QList <Particle> particles;
     int N=50;
-    QTimer timer;
+
     int time_counter = 0;
 
     float axisSize = 3.5, arrowSize = 0.1;
@@ -25,6 +25,7 @@ private:
 
 
 public:
+    QTimer timer;
 
     float angleX, angleZ, angleY;
     float max_rad = 2.5;//радиус салюта максимальный
@@ -62,6 +63,9 @@ public:
 
 
     void recountPoints();
+
+
+    void camera_rotate(float dx, float dy, float dz);
 
 
 

@@ -13,6 +13,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    float x0, y0, z0;
     Widget* glwidget;
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -48,6 +49,12 @@ private slots:
     void on_szSlider_valueChanged(int value);
 
     void on_horizontalSlider_valueChanged(int value);
+
+    void mousePressEvent(QMouseEvent *e);
+
+    void mouseReleaseEvent(QMouseEvent *e);
+
+    void mouseMoveEvent(QMouseEvent * e);
 
 
 private:

@@ -11,10 +11,10 @@
 Widget::Widget(QWidget *parent = 0) : QGLWidget(parent)
 {
     connect(&timer, SIGNAL(timeout()), this, SLOT(updateGL()));
-    timer.start(100);
+    timer.start(60);
 
     angleX = 0, angleY = 0, angleZ = 0;
-    cameraPosition = new QVector3D(3, 10, 7);
+    cameraPosition = new QVector3D(3, 4, 5);
     figurePosition = new QVector3D(0, 0, 0);
     figureScale = new QVector3D(1, 1, 1);
 
@@ -50,7 +50,7 @@ void Widget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //drawAxises();//оси координат
+    drawAxises();//оси координат
 
     //расположение света
     glMatrixMode(GL_MODELVIEW);
@@ -83,6 +83,7 @@ void Widget::paintGL()
 
 
 float Widget::color_choice(int i, int j){
+    glDisable(GL_LIGHTING);
     int n = particles[i].coordinate.size();
     float del = 1/(float)n;
     if(!particles[i].waiting_for_death())
@@ -92,15 +93,16 @@ float Widget::color_choice(int i, int j){
 
     else
     {
-        return 0.2;
+        return (n-j)*del;
     }
+    glEnable(GL_LIGHTING);
 
 }
 
-void Widget::recountPoints() {
-    time_counter++;
+void Widget::recountPoints() {   
 
-    glDisable(GL_LIGHTING);
+   // glDisable(GL_LIGHTING);
+    time_counter++;
     glPointSize(4);
     glBegin(GL_POINTS);
     int n = particles.size();
@@ -114,15 +116,15 @@ void Widget::recountPoints() {
         for(int j = 0; j < n; j++)
         {
             QVector3D newcoord = particles[i].coordinate.at(j);
-            float alpha = color_choice(i, j+1);
-            glColor4f(particles[i].get_color().x(), particles[i].get_color().y(), particles[i].get_color().z(), alpha);
+            //float alpha = color_choice(i, j+1);
+           // glColor4f(particles[i].get_color().x(), particles[i].get_color().y(), particles[i].get_color().z(), alpha);
             glVertex3f(newcoord.x(), newcoord.y(), newcoord.z());
 
 
         }
     }
     glEnd();
-    glEnable(GL_LIGHTING);
+   // glEnable(GL_LIGHTING);
 
 }
 
@@ -213,11 +215,28 @@ void Widget::setPerspectiveProjection() {
 
 }
 
+void Widget::camera_rotate(float dx, float dy, float dz){
 
+    if(fabs(cameraPosition->y()+dy)>5)
+         return;
+
+    if(fabs(cameraPosition->x()+dx)>5)
+        return;
+
+    if(fabs(cameraPosition->z()+dz)>5)
+        return;
+
+    cameraPosition->setY(cameraPosition->y()+dy);
+    cameraPosition->setX(cameraPosition->x()+dx);
+    cameraPosition->setZ(cameraPosition->z()+dz);
+
+    setPerspectiveProjection();
+}
 
 void Widget::changeCameraPositionX(float x) {
 
     cameraPosition->setX(x);
+
     setPerspectiveProjection();
 
 }
