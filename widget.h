@@ -3,11 +3,13 @@
 
 #include <QGLWidget>
 #include <QVector3D>
+#include <QVector4D>
+
 #include <QTimer>
 #include <QMouseEvent>
 
 #include "particle.h"
-
+#include "firework.h"
 
 
 class Widget: public QGLWidget{
@@ -15,7 +17,8 @@ class Widget: public QGLWidget{
 
 
 private:
-    QList <Particle> particles;
+    QList <firework> fire;
+    //QList <Particle> particles;
     int N=50;
 
     int time_counter = 0;
@@ -39,34 +42,13 @@ public:
     void initializeGL();
     void resizeGL(int, int);
     void paintGL();
-
-    float color_choice(int i, int j);
-
+    void add_new_firework();
     void setPerspectiveProjection();
-
     void drawAxises();
     void setLight();
     void changeBrightness(float b);
-
-
-    void changeCameraPositionX(float x);
-    void changeCameraPositionY(float y);
-    void changeCameraPositionZ(float z);
-
-    void changeFigurePositionX(float x);
-    void changeFigurePositionY(float y);
-    void changeFigurePositionZ(float z);
-
-    void changeFigureScaleX(float x);
-    void changeFigureScaleY(float y);
-    void changeFigureScaleZ(float z);
-
-
     void recountPoints();
-
-
-    void camera_rotate(float dx, float dy, float dz);
-
+    void camera_rotate(int dx, int dy, int dz);
 
 
 };

@@ -3,6 +3,7 @@
 #include <qmath.h>
 #include <QString>
 #include <QVector3D>
+#include <QVector4D>
 #include <GL/glu.h>
 #include <QDebug>
 
@@ -17,10 +18,7 @@ Widget::Widget(QWidget *parent = 0) : QGLWidget(parent)
     cameraPosition = new QVector3D(3, 4, 5);
     figurePosition = new QVector3D(0, 0, 0);
     figureScale = new QVector3D(1, 1, 1);
-
-    for(int i = 0;i<N;i++){
-        particles.append(Particle(i));
-    }
+    fire.append(firework(50,0));
     recountPoints();
 }
 
@@ -45,12 +43,10 @@ void Widget::resizeGL(int nWidth, int nHeight)
 
 void Widget::paintGL()
 {
-
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    drawAxises();//оси координат
+    //drawAxises();//оси координат
 
     //расположение света
     glMatrixMode(GL_MODELVIEW);
@@ -66,68 +62,55 @@ void Widget::paintGL()
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
-    //glRotatef(angleX, 1.0, 0.0, 0.0);
-    //glRotatef(angleY, 0.0, 1.0, 0.0);
-    //glRotatef(angleZ, 0.0, 0.0, 1.0);
+    glRotatef(angleX, 1.0, 0.0, 0.0);
+    glRotatef(angleY, 0.0, 1.0, 0.0);
+    glRotatef(angleZ, 0.0, 0.0, 1.0);
     glTranslatef(figurePosition->x(), figurePosition->y(), figurePosition->z());
-
     glScalef(figureScale->x(), figureScale->y(), figureScale->z());
 
-    if(timer.isActive()){
-        recountPoints();
-    }
+    recountPoints();
     glPopMatrix();
 
 
 }
 
 
-float Widget::color_choice(int i, int j){
-    glDisable(GL_LIGHTING);
-    int n = particles[i].coordinate.size();
-    float del = 1/(float)n;
-    if(!particles[i].waiting_for_death())
-    {
-        return j*del;
-    }
 
-    else
-    {
-        return (n-j)*del;
-    }
-    glEnable(GL_LIGHTING);
-
-}
 
 void Widget::recountPoints() {   
 
-   // glDisable(GL_LIGHTING);
-    time_counter++;
+    glDisable(GL_LIGHTING);
     glPointSize(4);
     glBegin(GL_POINTS);
-    int n = particles.size();
 
-    for(int i = 0; i < particles.size();i++){
-        particles[i].recount_points(time_counter);
-
-        int n = particles[i].coordinate.size();
-
-
-        for(int j = 0; j < n; j++)
+    for(int f = 0; f<fire.size();f++){
+        if(timer.isActive())
         {
-            QVector3D newcoord = particles[i].coordinate.at(j);
-            //float alpha = color_choice(i, j+1);
-           // glColor4f(particles[i].get_color().x(), particles[i].get_color().y(), particles[i].get_color().z(), alpha);
-            glVertex3f(newcoord.x(), newcoord.y(), newcoord.z());
-
-
+            fire[f].inc_time();
         }
+
+        for(int i = 0; i<fire[f].particles_size();i++){
+            fire[f].recount_particles(i);
+            int n = fire[f].particles_coordinate_size(i);
+            for(int j = 0; j<n;j++){
+                QVector3D newcoord = fire[f].particle_coordinate(i, j);
+                QVector3D color = fire[f].get_particle_color(i, j);
+                glColor4f(color.x(), color.y(), color.z(), fire[f].get_alpha(i, j));
+                glVertex3f(newcoord.x(), newcoord.y(), newcoord.z());
+
+            }
+        }
+
+
     }
     glEnd();
-   // glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
 
 }
-
+void Widget::add_new_firework(){
+    int c = fire.size();
+    fire.append(firework(50,c));
+}
 
 
 void Widget::setLight() {
@@ -215,87 +198,28 @@ void Widget::setPerspectiveProjection() {
 
 }
 
-void Widget::camera_rotate(float dx, float dy, float dz){
+void Widget::camera_rotate(int dx, int dy, int dz){
 
-    if(fabs(cameraPosition->y()+dy)>5)
-         return;
+    //if(dy==360)
+         //return;
 
-    if(fabs(cameraPosition->x()+dx)>5)
-        return;
+    //if(dx==360)
+       // return;
 
-    if(fabs(cameraPosition->z()+dz)>5)
-        return;
+    //if(dz==360)
+        //return;
 
-    cameraPosition->setY(cameraPosition->y()+dy);
-    cameraPosition->setX(cameraPosition->x()+dx);
-    cameraPosition->setZ(cameraPosition->z()+dz);
+    angleX += dx%361;
+    angleY += dy%361;
+    angleZ += dz%361;
+    //cameraPosition->setY(cameraPosition->y()+dy);
+    //cameraPosition->setX(cameraPosition->x()+dx);
+    //cameraPosition->setZ(cameraPosition->z()+dz);
 
     setPerspectiveProjection();
 }
 
-void Widget::changeCameraPositionX(float x) {
 
-    cameraPosition->setX(x);
-
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeCameraPositionY(float y) {
-
-    cameraPosition->setY(y);
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeCameraPositionZ(float z) {
-
-    cameraPosition->setZ(z);
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeFigurePositionX(float x) {
-
-    figurePosition->setX(x);
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeFigurePositionY(float y) {
-
-    figurePosition->setY(y);
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeFigurePositionZ(float z) {
-
-    figurePosition->setZ(z);
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeFigureScaleX(float x) {
-
-    figureScale->setX(x);
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeFigureScaleY(float y) {
-
-    figureScale->setY(y);
-    setPerspectiveProjection();
-
-}
-
-void Widget::changeFigureScaleZ(float z) {
-
-    figureScale->setZ(z);
-    setPerspectiveProjection();
-
-}
 
 void Widget::changeBrightness(float b) {
 

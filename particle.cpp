@@ -5,7 +5,7 @@ Particle::Particle(){
 
 }
 
-Particle::Particle(int ID)
+Particle::Particle(int ID, float x_0, float y_0, float z_0)
 {
     id = ID;
     velocity = rand()%3+2;
@@ -14,6 +14,9 @@ Particle::Particle(int ID)
     color.setX((rand()%256)/255.0);
     color.setY((rand()%256)/255.0);
     color.setZ((rand()%256)/255.0);
+    x0=x_0;
+    y0=y_0;
+    z0=z_0;
 
 }
 
@@ -65,12 +68,10 @@ void Particle::recount_points(int time){
 
     for(int i = 0; i< n; i++){
         QVector3D newcoord = coordinate.at(i);
-        coordinate[i].setX(newcoord.x()*cos(id*7.2)+newcoord.z()*sin(id*7.2));
-        coordinate[i].setY(newcoord.y());
-        coordinate[i].setZ(-newcoord.x()*sin(id*7.2)+newcoord.z()*cos(id*7.2));
+        coordinate[i].setX(newcoord.x()*cos(id*7.2)+newcoord.z()*sin(id*7.2)+x0);
+        coordinate[i].setY(newcoord.y()+y0);
+        coordinate[i].setZ(-newcoord.x()*sin(id*7.2)+newcoord.z()*cos(id*7.2)+z0);
     }
-
-
 }
 
 

@@ -18,11 +18,13 @@ LIBS += -lglu32 -lopengl32
 SOURCES += main.cpp\
         mainwindow.cpp \
     widget.cpp \
-    particle.cpp
+    particle.cpp \
+    firework.cpp
 
 HEADERS  += mainwindow.h \
     widget.h \
-    particle.h
+    particle.h \
+    firework.h
 
 FORMS    += mainwindow.ui
 

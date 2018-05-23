@@ -15,10 +15,11 @@ private:
     int type;
     float radius;
     bool is_dying = false;
+    float x0, y0, z0;
 
 public:
     Particle();
-    Particle(int ID);
+    Particle(int ID, float x_0, float y_0, float z_0);
     QList <QVector3D> coordinate;
 
     float get_velocity();
