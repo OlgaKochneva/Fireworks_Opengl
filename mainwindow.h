@@ -23,7 +23,6 @@ protected:
 
 private slots:
 
-    void on_horizontalSlider_valueChanged(int value);
 
     void mousePressEvent(QMouseEvent *e);
 

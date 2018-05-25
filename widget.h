@@ -8,7 +8,7 @@
 #include <QTimer>
 #include <QMouseEvent>
 
-#include "particle.h"
+//#include "particle.h"
 #include "firework.h"
 
 
@@ -18,11 +18,8 @@ class Widget: public QGLWidget{
 
 private:
     QList <firework> fire;
-    //QList <Particle> particles;
     int N=50;
-
     int time_counter = 0;
-
     float axisSize = 3.5, arrowSize = 0.1;
 
 
@@ -46,7 +43,6 @@ public:
     void setPerspectiveProjection();
     void drawAxises();
     void setLight();
-    void changeBrightness(float b);
     void recountPoints();
     void camera_rotate(int dx, int dy, int dz);
 

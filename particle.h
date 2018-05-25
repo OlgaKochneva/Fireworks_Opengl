@@ -21,7 +21,6 @@ public:
     Particle();
     Particle(int ID, float x_0, float y_0, float z_0);
     QList <QVector3D> coordinate;
-
     float get_velocity();
     bool waiting_for_death();
     int get_id();
@@ -29,7 +28,6 @@ public:
     int get_lifetime();
     void draw_particle();
     void recount_points(int time);
-
 
 };
 

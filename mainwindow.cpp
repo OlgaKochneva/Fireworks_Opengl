@@ -9,8 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
     ui->setupUi(this);
+    ui->pushButton->setStyleSheet("border-image: url(:/fire.png) stretch;");
+
     QGLFormat fmt;
     fmt.setSampleBuffers(true);
     fmt.setSamples(16);
@@ -37,11 +38,6 @@ void MainWindow::resizeEvent(QResizeEvent *e) {
 
 //положение наблюдателя
 
-//освещенность
-void MainWindow::on_horizontalSlider_valueChanged(int value)
-{
-    glwidget->changeBrightness(value / 100.0);
-}
 
 void MainWindow::on_pushButton_clicked(){
     glwidget->add_new_firework();
@@ -62,7 +58,6 @@ void MainWindow::mousePressEvent(QMouseEvent *e) {
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
      glwidget->timer.start(60);
-   //glwidget->updateGL();
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *e) {
@@ -72,13 +67,13 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e) {
         return;
 
     if (e->buttons() & Qt::LeftButton) {
-        glwidget->camera_rotate((e->x()-x0)/100.0, 0,0);
-        glwidget->camera_rotate(0, (e->y()-y0)/100.0, 0);
+        glwidget->camera_rotate((e->y()-y0)/100.0, 0,0);
+        glwidget->camera_rotate(0, (e->x()-x0)/100.0, 0);
     }
     if (e->buttons() & Qt::RightButton) {
 
-        glwidget->camera_rotate(0, 0, (e->x()-x0)/100.0);
-        glwidget->camera_rotate(0, (e->y()-y0)/100.0, 0);
+        glwidget->camera_rotate(0, 0, (e->y()-y0)/100.0);
+        glwidget->camera_rotate(0, (e->x()-x0)/100.0, 0);
     }
 
 }

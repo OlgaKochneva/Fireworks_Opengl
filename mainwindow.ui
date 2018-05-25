@@ -11,20 +11,39 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>kg6</string>
+   <string>Firework</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(0, 0, 0);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>49</x>
       <y>30</y>
-      <width>80</width>
-      <height>21</height>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Запуск</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>241</width>
+      <height>221</height>
      </rect>
     </property>
     <property name="text">
-     <string>Салютииик</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Нажать &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;Запуск &lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;для нового&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;фейерверка&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Поворот вокруг оси&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt; Y - &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;протянуть влево/вправо любой кнопкой мыши&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Поворот вокруг оси &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;Z&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt; - &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;протянуть вверх/вниз правой кнопкой мыши&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Поворот вокруг оси &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;X&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt; - &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;протянуть вверх/вниз левой кнопкой мыши&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>

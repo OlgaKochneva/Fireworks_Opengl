@@ -21,7 +21,7 @@ firework::firework(int N, int count)
         }
         for(int i = 0;i<N;i++){
 
-            particles.append(Particle(i, coord[0], coord[1], coord[2]));
+            particles.append(Particle(i, coord[0], coord[1]+1, coord[2]));
         }
     }
 
@@ -63,5 +63,4 @@ int firework::particles_size(){
 
 void firework::recount_particles(int i){
     particles[i].recount_points(time_c);
-    //qDebug()<<"пересчитали"<<i;
 }

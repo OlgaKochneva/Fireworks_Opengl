@@ -8,9 +8,9 @@ Particle::Particle(){
 Particle::Particle(int ID, float x_0, float y_0, float z_0)
 {
     id = ID;
-    velocity = rand()%3+2;
     lifetime = rand()%101;
     radius = (rand()%91)/30.0;
+    velocity = radius + 2;
     color.setX((rand()%256)/255.0);
     color.setY((rand()%256)/255.0);
     color.setZ((rand()%256)/255.0);
@@ -61,7 +61,7 @@ void Particle::recount_points(int time){
         y = radius * sin(Angle);
         z = 0;
         coordinate.append(QVector3D(x, y, z));
-        Angle+=step/(velocity/4.0);
+        Angle+=step/(5-velocity/5.0);
     }
 
     int n = coordinate.size();

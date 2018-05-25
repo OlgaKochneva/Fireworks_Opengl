@@ -3,7 +3,6 @@
 #include <qmath.h>
 #include <QString>
 #include <QVector3D>
-#include <QVector4D>
 #include <GL/glu.h>
 #include <QDebug>
 
@@ -70,8 +69,6 @@ void Widget::paintGL()
 
     recountPoints();
     glPopMatrix();
-
-
 }
 
 
@@ -79,7 +76,6 @@ void Widget::paintGL()
 
 void Widget::recountPoints() {   
 
-    glDisable(GL_LIGHTING);
     glPointSize(4);
     glBegin(GL_POINTS);
 
@@ -104,7 +100,6 @@ void Widget::recountPoints() {
 
     }
     glEnd();
-    glEnable(GL_LIGHTING);
 
 }
 void Widget::add_new_firework(){
@@ -116,20 +111,17 @@ void Widget::add_new_firework(){
 void Widget::setLight() {
 
     //material
-    GLfloat material_ambient[] = {0.5, 0.5, 0.5, 1.0};
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_ambient);
 
     GLfloat material_diffuse[] = {0.5, 0.5, 0.5, 1.0};
+    GLfloat shine[] = {50};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
 
-    //light
-    GLfloat ambient[] = {0.5, 0.5, 0.0, 0.5};//тень
-    glLightfv(GL_LIGHT1, GL_AMBIENT, ambient);
 
-    GLfloat diffuse[] = {1.0, 1.0, 0.0, 1.0};//цвет фигуры
+    GLfloat diffuse[] = {1.0, 1.0, 1.0, 0.0};//цвет фигуры
     glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse);
 
-    GLfloat position[] = {0.0, 2.5, 5.0, 1.0};
+    GLfloat position[] = {0.0, 2.5, 20.0, 1.0};
     glLightfv(GL_LIGHT1, GL_POSITION, position);
 
 
@@ -199,36 +191,12 @@ void Widget::setPerspectiveProjection() {
 }
 
 void Widget::camera_rotate(int dx, int dy, int dz){
-
-    //if(dy==360)
-         //return;
-
-    //if(dx==360)
-       // return;
-
-    //if(dz==360)
-        //return;
-
     angleX += dx%361;
     angleY += dy%361;
     angleZ += dz%361;
-    //cameraPosition->setY(cameraPosition->y()+dy);
-    //cameraPosition->setX(cameraPosition->x()+dx);
-    //cameraPosition->setZ(cameraPosition->z()+dz);
-
     setPerspectiveProjection();
 }
 
-
-
-void Widget::changeBrightness(float b) {
-
-    GLfloat d[] = {b, b, 0.0, 1.0};
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, d);
-    updateGL();
-
-
-}
 
 
 
